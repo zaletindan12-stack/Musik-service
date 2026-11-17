@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Musik - Треки</title>
+</head>
+<body>
+	<h1>Список треков</h1>
+
+	<table border="1">
+		<thead>
+		     <tr>
+			<th>ID</th>
+			<th>Название</th>
+			<th>Длительность (в секундах)</th>
+		     </tr>
+		</thead>
+		<tbody>
+			{% for track in tracks  %}
+			<tr>
+			    <td>{{track.id}}</td>
+			    <td>{{track.title}}</td>
+			    <td>{{track.duration}}</td>
+			</tr>
+			{% endfor  %}
+		</tbody>
+	</table>
+</body>
+</html>
