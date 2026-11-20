@@ -19,11 +19,12 @@
 			{% for track in tracks  %}
 			<tr>
 			    <td>{{track.id}}</td>
-			    <td>{{track.title}}</td>
+			    <td><a href="/track/{{ track.id }}">{{track.title}}</a></td>
 			    <td>{{track.duration}}</td>
 			</tr>
 			{% endfor  %}
 		</tbody>
 	</table>
+	<p><a href="/">На главную</a></p>
 </body>
 </html>

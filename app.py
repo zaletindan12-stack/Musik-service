@@ -36,5 +36,34 @@ def tracks():
 
 	return render_template('tracks.html', tracks=tracks_list)
 
+@app.route('/track/<int:track_id>')
+def track_page(track_id):
+	cur = con.cursor()
+	cur.execute(""" SELECT T.ID, T.TITLE, T.DURATION, T.AUDIO_URL, 
+	A.NAME AS ARTIST_NAME, AL.TITLE AS ALBUM_TITLE, G.NAME AS GENRE_NAME
+	FROM TRACKS T
+	JOIN ARTISTS A ON T.ARTIST_ID = A.ID
+	JOIN ALBUMS AL ON T.ALBUM_ID = AL.ID
+	JOIN GENRES G ON T.GENRE_ID = G.ID
+	WHERE T.ID = ?
+	""", (track_id,))
+	row = cur.fetchone()
+	cur.close
+
+	if row is None:
+		return "Трек не найден", 404
+
+	track = {
+		'id': row[0],
+		'title': row[1],
+		'duration': row[2],
+		'audio_url': row[3],
+		'artist': row[4],
+		'album': row[5],
+		'genre': row[6]
+	}
+
+	return render_template('track.html', track=track)
+
 if __name__ == '__main__':
 	app.run(debug=True)

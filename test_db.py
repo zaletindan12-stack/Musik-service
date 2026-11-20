@@ -14,8 +14,7 @@ cur=con.cursor()
 cur.execute("SELECT ID, TITLE, DURATION FROM TRACKS ORDER BY ID")
 
 print("\nСписок треков:")
-rows = cur.fetchall()
-tracks = [{'id': row[0], 'title': row[1], 'duration': row[2]} for row in rows]
+for row in cur:
 	return row
 
 cur.close()

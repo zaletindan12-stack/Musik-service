@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ track.title }}</title>
+    </head>
+    <body>
+        <h1>{{ track.title }}</h1>
+
+        <p><strong>Исполнитель: </strong>{{ track.artist }}</p>
+        <p><strong>Альбом: </strong>{{ track.album }}</p>
+        <p><strong>Жанр: </strong>{{ track.genre }}</p>
+        <p><strong>Длительность: </strong>{{ track.duration }}</p>
+
+        <audio controls>
+            <source src="{{ url_for('static', filename=track.audio_url) }}" type="audio/mpeg">
+            Ваш браузер не поддерживает даже воспроизведение аудиофайлов.
+        </audio>
+    
+        <p><a href="/tracks">Назад к списку треков</a></p>
+    </body>
+</html>
