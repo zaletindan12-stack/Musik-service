@@ -5,6 +5,12 @@
 	<title>Musik - мой музыкальный сервис</title>
 </head>
 <body>
+	{% if session.get('user_id') %}
+		<p>Вы вошли как <strong>{{ session.get('login') }}</strong> (роль: {{ session.get('role') }} )</p>
+		<p><a href="/logout">Выйти</a></p>
+	{% else %}
+		<p><a href="/login">Войти</a> | <a href="/register">Зарегистрироваться</a></p>
+	{% endif %}
 	<h2>Добро пожаловать в Musik!</h2>
 	<p>Привет, {{ username }}!</p>
 	<p>Здесь скоро появятся треки!!!</p>
