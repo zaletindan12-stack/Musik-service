@@ -17,6 +17,15 @@
             Ваш браузер не поддерживает даже воспроизведение аудиофайлов.
         </audio>
     
+        {% if session.get('user_id') %}
+            {% if is_liked %}
+                <p><a href="/unlike/{{ track.id }}">Убрать из избранного</a></p>
+            {% else %}
+                <p><a href="/like/{{ track.id }}">Добавить в избранное</a></p>
+            {% endif %}
+        {% else %}
+            <p><a href="/login">Войдите</a>, чтобы лайкать треки.</p> 
+        {% endif %}   
         <p><a href="/tracks">Назад к списку треков</a></p>
     </body>
 </html>

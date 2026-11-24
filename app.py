@@ -52,7 +52,6 @@ def track_page(track_id):
 	WHERE T.ID = ?
 	""", (track_id,))
 	row = cur.fetchone()
-	cur.close
 
 	if row is None:
 		return "Трек не найден", 404
@@ -67,7 +66,13 @@ def track_page(track_id):
 		'genre': row[6]
 	}
 
-	return render_template('track.html', track=track)
+	user_id = session.get('user_id')
+	cur.execute("SELECT ID FROM FAVORITES WHERE USER_ID = ? AND TRACK_ID = ?", (user_id, track_id))
+
+	is_liked = (cur.fetchone() is not None)
+	cur.close()
+
+	return render_template('track.html', track=track, is_liked=is_liked)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -132,6 +137,36 @@ def logout():
 	session.clear()
 	flash('Вы вышли из системы')
 	return redirect(url_for('index'))
+
+@app.route('/like/<int:track_id>')
+def like_track(track_id):
+	user_id = session.get('user_id')
+	if user_id is None:
+		flash('Войдите, чтобы лайкать треки')
+		return redirect(url_for('login'))
+	
+	cur = con.cursor()
+	cur.execute("SELECT ID FROM FAVORITES WHERE USER_ID = ? AND TRACK_ID = ?", (user_id, track_id))
+	if cur.fetchone() is None:
+		cur.execute("INSERT INTO FAVORITES (USER_ID, TRACK_ID) VALUES (?, ?)", (user_id, track_id))
+		con.commit()
+	cur.close()
+
+	return redirect(url_for('track_page', track_id=track_id))
+
+@app.route('/unlike/<int:track_id>')
+def unlike_track(track_id):
+	user_id = session.get('user_id')
+	if user_id is None:
+		flash('Войдите, чтобы управлять избранным')
+		return redirect(url_for('login'))
+
+	cur = con.cursor()
+	cur.execute("DELETE FROM FAVORITES WHERE USER_ID = ? AND TRACK_ID = ?", (user_id, track_id))
+	con.commit()
+	cur.close()
+
+	return redirect(url_for('track_page', track_id=track_id))
 
 if __name__ == '__main__':
 	app.run(debug=True)
