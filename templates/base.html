@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Musik{% endblock %}</title>
+    </head>
+    <body>
+        <header>
+            <a href="/">Главная</a> | 
+            <a href="/tracks">Список треков</a> | 
+            {% if session.get('user_id') %}
+                Вы вошли как <strong>{{ session.get('login') }}</strong>|
+                <a href="/logout">Выйти</a>
+            {% else %}
+                <a href="/login">Войти</a> 
+                | Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+            {% endif %}
+        </header>
+
+        <hr>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        
+        <hr>
+
+        <footer>Musik project 2026</footer>
+    </body>
+</html>

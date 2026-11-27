@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ track.title }}</title>
-    </head>
-    <body>
+{% extends "base.html" %}
+
+{% block title %}Musik|{{ track.title }}{% endblock %}
+
+{% block content %}
         <h1>{{ track.title }}</h1>
 
         <p><strong>Исполнитель: </strong>{{ track.artist }}</p>
@@ -27,5 +25,4 @@
             <p><a href="/login">Войдите</a>, чтобы лайкать треки.</p> 
         {% endif %}   
         <p><a href="/tracks">Назад к списку треков</a></p>
-    </body>
-</html>
+{% endblock %}
